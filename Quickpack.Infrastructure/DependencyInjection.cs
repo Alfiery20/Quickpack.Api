@@ -9,6 +9,8 @@ namespace Quickpack.Infrastructure
         public static IServiceCollection AddInfrastructureLayer(this IServiceCollection services)
         {
             services.AddSingleton<IJwtService, JwtService>();
+            services.AddSingleton<IDateTimeService, DateTimeService>();
+            services.AddSingleton<ICryptography, Cryptography>();
             return services;
         }
     }

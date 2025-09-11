@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Quickpack.Application.Common.Interface;
+using Quickpack.Application.Common.Interface.Repositories;
 using Quickpack.Persistence.Database;
+using Quickpack.Persistence.Repository;
 
 namespace Quickpack.Persistence
 {
@@ -10,7 +12,7 @@ namespace Quickpack.Persistence
         {
             services.AddTransient<IDataBase>(sp => new SqlDataBase(connectionString));
 
-            //services.AddSingleton<IAutenticacionRepository, AutenticacionRepository>();
+            services.AddSingleton<IAutenticacionRepository, AutenticacionRepository>();
 
             return services;
         }
