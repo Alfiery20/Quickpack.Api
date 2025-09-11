@@ -1,25 +1,72 @@
-var builder = WebApplication.CreateBuilder(args);
+using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
+using Quickpack.Api.Utils;
+using Serilog;
 
-// Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace Quickpack.Api
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var config = GetConfiguration();
+            Log.Logger = CreateSerilogLogger(config);
+
+            try
+            {
+                Log.Information(Constants.StarAppMessage);
+                Log.Information(Constants.ConfigAppMessge);
+
+                var host = CreateHostBuilder(config, args);
+
+                Log.Information(Constants.StartingAppMesage);
+                host.Build().Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, Constants.EndingAppMessage);
+                Log.Fatal(Constants.EndAppMessage);
+                throw;
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+        }
+
+        public static IHostBuilder CreateHostBuilder(IConfiguration configuration, string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureHostConfiguration(configHost =>
+                {
+                    configHost.AddConfiguration(configuration);
+                })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.CaptureStartupErrors(false);
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
+                })
+                .UseSerilog();
+
+        private static IConfiguration GetConfiguration()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(Constants.JsonFilePath, false, true)
+                .AddJsonFile(string.Format(Constants.JsonEnviromentFilePath, Environment.GetEnvironmentVariable(Constants.EnviromentVariable)), true, true)
+                .AddEnvironmentVariables()
+                .Build();
+
+            return builder;
+        }
+
+        private static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
+        {
+            return new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+        }
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

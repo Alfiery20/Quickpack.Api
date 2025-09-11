@@ -1,0 +1,15 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using Quickpack.Application.Common.Interface;
+using Quickpack.Infrastructure.Services;
+
+namespace Quickpack.Infrastructure
+{
+    public static class DependencyInjection
+    {
+        public static IServiceCollection AddInfrastructureLayer(this IServiceCollection services)
+        {
+            services.AddSingleton<IJwtService, JwtService>();
+            return services;
+        }
+    }
+}
