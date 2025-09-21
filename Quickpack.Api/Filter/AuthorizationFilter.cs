@@ -13,7 +13,7 @@ namespace Quickpack.Api.Filter
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             string _key = "WCM9K1M2&7g1O4bogUii$TYxWwTP@S*1";
-            string _issuer = "DonShalo.Api";
+            string _issuer = "Quickpack.Api";
 
             var request = context.HttpContext.Request;
 

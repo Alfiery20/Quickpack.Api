@@ -31,7 +31,10 @@ namespace Quickpack.Application.Autenticacion.command.IniciarSesion
         {
             this._logger.LogInformation("Iniciando handler para Iniciar Sesion");
             var response = await this._autenticacionRepository.IniciarSesion(request);
-            response.Token = this.GenerateToken(response);
+            if (response.Id != 0)
+            {
+                response.Token = this.GenerateToken(response);
+            }
             this._logger.LogInformation("Fin de handler para Iniciar Sesion");
             return response;
         }
