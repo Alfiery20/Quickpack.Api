@@ -13,6 +13,7 @@ namespace Quickpack.Persistence
             services.AddTransient<IDataBase>(sp => new SqlDataBase(connectionString));
 
             services.AddSingleton<IAutenticacionRepository, AutenticacionRepository>();
+            services.AddSingleton<IRolRepository, RolRepository>();
 
             return services;
         }
