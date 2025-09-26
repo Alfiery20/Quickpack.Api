@@ -1,5 +1,9 @@
-﻿using Quickpack.Application.Rol.Command;
+﻿using Quickpack.Application.Rol.Command.AgregarRol;
+using Quickpack.Application.Rol.Command.EditarEstadoRol;
+using Quickpack.Application.Rol.Command.EditarRol;
+using Quickpack.Application.Rol.Query.ObtenerPermisoRol;
 using Quickpack.Application.Rol.Query.ObtenerRol;
+using Quickpack.Application.Rol.Query.VerRol;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +16,9 @@ namespace Quickpack.Application.Common.Interface.Repositories
     {
         Task<ObtenerRolQueryDTO> ObtenerRoles(ObtenerRolQuery query);
         Task<AgregarRolCommandDTO> AgregarRol(AgregarRolCommand command);
+        Task<VerRolQueryDTO> VerRole(VerRolQuery query);
+        Task<EditarRolCommandDTO> EditarRol(EditarRolCommand command);
+        Task<EditarEstadoRolCommandDTO> EditarEstadoRol(EditarEstadoRolCommand command);
+        Task<IEnumerable<ObtenerPermisoRolQueryDTO>> ObtenerPermisosRoles(ObtenerPermisoRolQuery query);
     }
 }

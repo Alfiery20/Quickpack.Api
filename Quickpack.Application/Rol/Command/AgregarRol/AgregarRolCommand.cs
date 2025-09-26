@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Quickpack.Application.Rol.Command
+namespace Quickpack.Application.Rol.Command.AgregarRol
 {
     public class AgregarRolCommand : IRequest<AgregarRolCommandDTO>
     {

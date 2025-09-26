@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Quickpack.Application.Rol.Command
+namespace Quickpack.Application.Rol.Command.AgregarRol
 {
     public class AgregarRolCommandHandler : IRequestHandler<AgregarRolCommand, AgregarRolCommandDTO>
     {
@@ -19,14 +19,14 @@ namespace Quickpack.Application.Rol.Command
                 IRolRepository rolRepository
             )
         {
-            this._logger = logger;
-            this._rolRepository = rolRepository;
+            _logger = logger;
+            _rolRepository = rolRepository;
         }
         public Task<AgregarRolCommandDTO> Handle(AgregarRolCommand request, CancellationToken cancellationToken)
         {
-            this._logger.LogInformation("Iniciando handler para Agregar Rol");
-            var response = this._rolRepository.AgregarRol(request);
-            this._logger.LogInformation("Terminando handler para Agregar Rol");
+            _logger.LogInformation("Iniciando handler para Agregar Rol");
+            var response = _rolRepository.AgregarRol(request);
+            _logger.LogInformation("Terminando handler para Agregar Rol");
             return response;
         }
     }
