@@ -27,8 +27,8 @@ namespace Quickpack.Persistence.Repository
             {
                 DynamicParameters parameters = new DynamicParameters();
 
-                parameters.Add("@pemail", command.Correo, DbType.String, ParameterDirection.Input);
-                parameters.Add("@pclave", this.cryptography.Encrypt(command.Clave), DbType.String, ParameterDirection.Input);
+                parameters.Add("@pemail", command.Correo.Trim(), DbType.String, ParameterDirection.Input);
+                parameters.Add("@pclave", this.cryptography.Encrypt(command.Clave.Trim()), DbType.String, ParameterDirection.Input);
 
                 using (var reader = await cnx.ExecuteReaderAsync(
                     "[dbo].[sp_IniciarSesion]",

@@ -4,10 +4,12 @@ using Quickpack.Application.Autenticacion.command.IniciarSesion;
 using Quickpack.Application.Common.Interface;
 using Quickpack.Application.Common.Interface.Repositories;
 using Quickpack.Application.Rol.Command.AgregarRol;
+using Quickpack.Application.Rol.Command.AsignarPermiso;
 using Quickpack.Application.Rol.Command.EditarEstadoRol;
 using Quickpack.Application.Rol.Command.EditarRol;
 using Quickpack.Application.Rol.Query.ObtenerPermisoRol;
 using Quickpack.Application.Rol.Query.ObtenerRol;
+using Quickpack.Application.Rol.Query.ObtenerRolMenu;
 using Quickpack.Application.Rol.Query.VerRol;
 using Quickpack.Persistence.Database;
 using System;
@@ -36,7 +38,7 @@ namespace Quickpack.Persistence.Repository
                 List<Rol> roles = new();
                 DynamicParameters parameters = new DynamicParameters();
 
-                parameters.Add("@pTermino", query.Termino, DbType.String, ParameterDirection.Input);
+                parameters.Add("@pTermino", query.Termino.Trim(), DbType.String, ParameterDirection.Input);
                 parameters.Add("@pPage", query.Pagina, DbType.Int32, ParameterDirection.Input);
                 parameters.Add("@pCantidad", query.Cantidad, DbType.Int32, ParameterDirection.Input);
                 parameters.Add("@total", 0, DbType.Int32, ParameterDirection.Output);
@@ -71,7 +73,7 @@ namespace Quickpack.Persistence.Repository
             {
                 DynamicParameters parameters = new DynamicParameters();
 
-                parameters.Add("@pnombre", command.Nombre, DbType.String, ParameterDirection.Input);
+                parameters.Add("@pnombre", command.Nombre.Trim(), DbType.String, ParameterDirection.Input);
                 parameters.Add("@codigo", "", DbType.String, ParameterDirection.Output);
                 parameters.Add("@msj", "", DbType.String, ParameterDirection.Output);
 
@@ -96,7 +98,7 @@ namespace Quickpack.Persistence.Repository
                 DynamicParameters parameters = new DynamicParameters();
 
                 parameters.Add("@pidRol", command.IdRol, DbType.Int32, ParameterDirection.Input);
-                parameters.Add("@pnombre", command.Nombre, DbType.String, ParameterDirection.Input);
+                parameters.Add("@pnombre", command.Nombre.Trim(), DbType.String, ParameterDirection.Input);
                 parameters.Add("@codigo", "", DbType.String, ParameterDirection.Output);
                 parameters.Add("@msj", "", DbType.String, ParameterDirection.Output);
 
@@ -185,7 +187,55 @@ namespace Quickpack.Persistence.Repository
                             IdMenu = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
                             Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString(),
                             Padre = Convert.IsDBNull(reader["PADRE"]) ? 0 : Convert.ToInt32(reader["PADRE"].ToString()),
-                            IsPermiso = Convert.IsDBNull(reader["IS_PERMISO"]) ? false : reader["IS_PERMISO"].ToString() == "1",
+                            IsPermiso = Convert.IsDBNull(reader["IS_PERMISO"]) ? 0 : Convert.ToInt32(reader["IS_PERMISO"].ToString()),
+                        });
+                    }
+                }
+                return response;
+            }
+        }
+        public async Task<AsignarPermisoCommandDTO> AsignarPermiso(AsignarPermisoCommand command)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                DynamicParameters parameters = new DynamicParameters();
+
+                parameters.Add("@pIdPermiso", command.IdPermiso, DbType.Int32, ParameterDirection.Input);
+                parameters.Add("@pIdMenu", command.IdMenu, DbType.Int32, ParameterDirection.Input);
+                parameters.Add("@pIdRol", command.IdRol, DbType.Int32, ParameterDirection.Input);
+                parameters.Add("@codigo", "", DbType.String, ParameterDirection.Output);
+                parameters.Add("@msj", "", DbType.String, ParameterDirection.Output);
+
+                var reader = await cnx.ExecuteAsync(
+                    "[dbo].[usp_ActualizarPermiso]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure);
+
+                AsignarPermisoCommandDTO response = new()
+                {
+                    Codigo = parameters.Get<string>("@codigo"),
+                    Mensaje = parameters.Get<string>("@msj"),
+                };
+                return response;
+
+            }
+        }
+        public async Task<IEnumerable<ObtenerRolMenuQueryDTO>> ObtenerRoleMenu()
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                List<ObtenerRolMenuQueryDTO> response = new();
+
+                using (var reader = await cnx.ExecuteReaderAsync(
+                    "[dbo].[usp_ObtenerRolMenu]",
+                    commandType: CommandType.StoredProcedure))
+                {
+                    while (reader.Read())
+                    {
+                        response.Add(new ObtenerRolMenuQueryDTO()
+                        {
+                            Id = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
+                            Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString()
                         });
                     }
                 }

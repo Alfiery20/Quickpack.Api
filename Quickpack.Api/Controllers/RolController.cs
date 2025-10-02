@@ -3,10 +3,12 @@ using Quickpack.Api.Filter;
 using Quickpack.Application.Autenticacion.command.IniciarSesion;
 using Quickpack.Application.Autenticacion.command.ObtenerMenu;
 using Quickpack.Application.Rol.Command.AgregarRol;
+using Quickpack.Application.Rol.Command.AsignarPermiso;
 using Quickpack.Application.Rol.Command.EditarEstadoRol;
 using Quickpack.Application.Rol.Command.EditarRol;
 using Quickpack.Application.Rol.Query.ObtenerPermisoRol;
 using Quickpack.Application.Rol.Query.ObtenerRol;
+using Quickpack.Application.Rol.Query.ObtenerRolMenu;
 using Quickpack.Application.Rol.Query.VerRol;
 
 namespace Quickpack.Api.Controllers
@@ -78,6 +80,24 @@ namespace Quickpack.Api.Controllers
             {
                 IdRol = idRol
             });
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("asignarPermiso")]
+        [ProducesResponseType(typeof(AsignarPermisoCommandDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> AsignarPermiso(AsignarPermisoCommand command)
+        {
+            var response = await Mediator.Send(command);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("obtenerRolMenu")]
+        [ProducesResponseType(typeof(ObtenerRolMenuQueryDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ObtenerRolMenu()
+        {
+            var response = await Mediator.Send(new ObtenerRolMenuQuery() { });
             return Ok(response);
         }
     }

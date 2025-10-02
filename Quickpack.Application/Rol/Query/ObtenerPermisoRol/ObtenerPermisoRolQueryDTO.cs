@@ -11,7 +11,7 @@ namespace Quickpack.Application.Rol.Query.ObtenerPermisoRol
         public int IdMenu { get; set; }
         public string Nombre { get; set; }
         public int Padre { get; set; }
-        public bool IsPermiso { get; set; }
+        public int IsPermiso { get; set; }
         public List<ObtenerPermisoRolQueryDTO> MenusHijos { get; set; }
     }
 }

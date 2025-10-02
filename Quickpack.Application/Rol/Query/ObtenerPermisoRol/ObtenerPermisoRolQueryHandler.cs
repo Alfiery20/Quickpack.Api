@@ -26,8 +26,8 @@ namespace Quickpack.Application.Rol.Query.ObtenerPermisoRol
         public async Task<IEnumerable<ObtenerPermisoRolQueryDTO>> Handle(ObtenerPermisoRolQuery request, CancellationToken cancellationToken)
         {
             this._logger.LogInformation("Iniciando handler para Obtener permisos por Roles");
-            var response = await this._rolRepository.ObtenerPermisosRoles(request);
-            this.LlenarArreglo(response.ToList());
+            var response = (await this._rolRepository.ObtenerPermisosRoles(request)).ToList();
+            this.LlenarArreglo(response);
             this._logger.LogInformation("Finalizando handler para permisos por Roles");
             return response.Where(x => x.Padre == 0);
         }
@@ -38,7 +38,7 @@ namespace Quickpack.Application.Rol.Query.ObtenerPermisoRol
             {
                 var primerosHijos = command.Where(n => n.Padre == menu.IdMenu).ToList();
                 menu.MenusHijos = primerosHijos;
-                this.LlenarArreglo(primerosHijos);
+                //this.LlenarArreglo(primerosHijos);
             }
         }
     }
