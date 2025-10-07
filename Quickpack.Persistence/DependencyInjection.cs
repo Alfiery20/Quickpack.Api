@@ -15,6 +15,7 @@ namespace Quickpack.Persistence
             services.AddSingleton<IAutenticacionRepository, AutenticacionRepository>();
             services.AddSingleton<IRolRepository, RolRepository>();
             services.AddSingleton<IEmpleadoRepository, EmpleadoRepository>();
+            services.AddSingleton<ITipoProductoRepository, TipoProductoRepository>();
 
             return services;
         }
