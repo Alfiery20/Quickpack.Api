@@ -11,6 +11,7 @@ using Quickpack.Application.TipoProducto.Command.AgregarTipoProducto;
 using Quickpack.Application.TipoProducto.Command.EditarEstadoTipoProducto;
 using Quickpack.Application.TipoProducto.Command.EditarTipoProducto;
 using Quickpack.Application.TipoProducto.Query.ObtenerTipoProducto;
+using Quickpack.Application.TipoProducto.Query.ObtenerTipoProductoMenu;
 using Quickpack.Application.TipoProducto.Query.VerTipoProducto;
 using Quickpack.Persistence.Database;
 using System;
@@ -154,7 +155,7 @@ namespace Quickpack.Persistence.Repository
                 parameters.Add("@msj", "", DbType.String, ParameterDirection.Output);
 
                 var reader = await cnx.ExecuteAsync(
-                    "[dbo].[usp_EditarTipoProducto]",
+                    "[dbo].[usp_CambiarEstadoTipoProducto]",
                     param: parameters,
                     commandType: CommandType.StoredProcedure);
 
@@ -165,6 +166,29 @@ namespace Quickpack.Persistence.Repository
                 };
                 return response;
 
+            }
+        }
+        public async Task<IEnumerable<ObtenerTipoProductoMenuQueryDTO>> ObtenerTipoProductoMenu(ObtenerTipoProductoMenuQuery query)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                List<ObtenerTipoProductoMenuQueryDTO> response = new();
+                DynamicParameters parameters = new DynamicParameters();
+
+                using (var reader = await cnx.ExecuteReaderAsync(
+                    "[dbo].[usp_ObtenerTipoProductoMenu]",
+                    commandType: CommandType.StoredProcedure))
+                {
+                    while (reader.Read())
+                    {
+                        response.Add(new ObtenerTipoProductoMenuQueryDTO()
+                        {
+                            Id = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
+                            Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString(),
+                        });
+                    }
+                }
+                return response;
             }
         }
     }

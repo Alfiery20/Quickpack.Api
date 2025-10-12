@@ -13,6 +13,5 @@ namespace Quickpack.Application.Empleado.Query.ObtenerEmpleado
         public string NroDocumento { get; set; }
         public int Pagina { get; set; }
         public int Cantidad { get; set; }
-        public int Total { get; set; }
     }
 }

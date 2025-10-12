@@ -2,6 +2,7 @@
 using Quickpack.Application.TipoProducto.Command.EditarEstadoTipoProducto;
 using Quickpack.Application.TipoProducto.Command.EditarTipoProducto;
 using Quickpack.Application.TipoProducto.Query.ObtenerTipoProducto;
+using Quickpack.Application.TipoProducto.Query.ObtenerTipoProductoMenu;
 using Quickpack.Application.TipoProducto.Query.VerTipoProducto;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,6 @@ namespace Quickpack.Application.Common.Interface.Repositories
         Task<VerTipoProductoQueryDTO> VerTipoProducto(VerTipoProductoQuery query);
         Task<EditarTipoProductoCommandDTO> EditarTipoProducto(EditarTipoProductoCommand command);
         Task<EditarEstadoTipoProductoCommandDTO> EditarEstadoTipoProducto(EditarEstadoTipoProductoCommand command);
+        Task<IEnumerable<ObtenerTipoProductoMenuQueryDTO>> ObtenerTipoProductoMenu(ObtenerTipoProductoMenuQuery query);
     }
 }

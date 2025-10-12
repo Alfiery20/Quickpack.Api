@@ -9,6 +9,7 @@ using Quickpack.Application.TipoProducto.Command.AgregarTipoProducto;
 using Quickpack.Application.TipoProducto.Command.EditarEstadoTipoProducto;
 using Quickpack.Application.TipoProducto.Command.EditarTipoProducto;
 using Quickpack.Application.TipoProducto.Query.ObtenerTipoProducto;
+using Quickpack.Application.TipoProducto.Query.ObtenerTipoProductoMenu;
 using Quickpack.Application.TipoProducto.Query.VerTipoProducto;
 
 namespace Quickpack.Api.Controllers
@@ -38,7 +39,7 @@ namespace Quickpack.Api.Controllers
 
         [HttpGet]
         [Route("verTipoProducto/{idTipoProducto}")]
-        [ProducesResponseType(typeof(ObtenerTipoProductoQueryDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(VerTipoProductoQueryDTO), StatusCodes.Status200OK)]
         public async Task<IActionResult> VerTipoProducto(int idTipoProducto)
         {
             var response = await Mediator.Send(
@@ -68,6 +69,15 @@ namespace Quickpack.Api.Controllers
             {
                 IdTipoProducto = idTipoProducto
             });
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("obtenerTipoProductoMenu")]
+        [ProducesResponseType(typeof(ObtenerTipoProductoQueryDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ObtenerTipoProductoMenu()
+        {
+            var response = await Mediator.Send(new ObtenerTipoProductoMenuQuery());
             return Ok(response);
         }
     }
