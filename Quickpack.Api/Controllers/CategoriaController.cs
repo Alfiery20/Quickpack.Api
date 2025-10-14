@@ -4,6 +4,7 @@ using Quickpack.Application.Categoria.Command.AgregarBeneficios;
 using Quickpack.Application.Categoria.Command.AgregarCategoria;
 using Quickpack.Application.Categoria.Command.CambiarEstadoCategoria;
 using Quickpack.Application.Categoria.Command.EditarCategoria;
+using Quickpack.Application.Categoria.Query.ObtenerBeneficio;
 using Quickpack.Application.Categoria.Query.ObtenerCategoria;
 using Quickpack.Application.Categoria.Query.ObtenerCategoriaMenu;
 using Quickpack.Application.Categoria.Query.VerCategoria;
@@ -83,6 +84,18 @@ namespace Quickpack.Api.Controllers
         public async Task<IActionResult> AgregarBeneficio(AgregarBeneficiosCommand command)
         {
             var response = await Mediator.Send(command);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("obtenerBeneficio/{idCategoria}")]
+        [ProducesResponseType(typeof(ObtenerBeneficioQueryDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ObtenerBeneficio(int idCategoria)
+        {
+            var response = await Mediator.Send(new ObtenerBeneficioQuery()
+            {
+                IdCategoria = idCategoria
+            });
             return Ok(response);
         }
     }

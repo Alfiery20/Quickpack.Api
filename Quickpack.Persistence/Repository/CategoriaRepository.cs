@@ -4,24 +4,14 @@ using Quickpack.Application.Categoria.Command.AgregarBeneficios;
 using Quickpack.Application.Categoria.Command.AgregarCategoria;
 using Quickpack.Application.Categoria.Command.CambiarEstadoCategoria;
 using Quickpack.Application.Categoria.Command.EditarCategoria;
+using Quickpack.Application.Categoria.Query.ObtenerBeneficio;
 using Quickpack.Application.Categoria.Query.ObtenerCategoria;
 using Quickpack.Application.Categoria.Query.ObtenerCategoriaMenu;
 using Quickpack.Application.Categoria.Query.VerCategoria;
 using Quickpack.Application.Common.Interface;
 using Quickpack.Application.Common.Interface.Repositories;
-using Quickpack.Application.Empleado.Command.AgregarEmpleado;
-using Quickpack.Application.Empleado.Command.EditarEmpleado;
-using Quickpack.Application.Empleado.Command.EditarEstadoEmpleado;
-using Quickpack.Application.Empleado.Query.ObtenerEmpleado;
-using Quickpack.Application.Empleado.Query.VerEmpleado;
-using Quickpack.Application.TipoProducto.Query.ObtenerTipoProductoMenu;
 using Quickpack.Persistence.Database;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Quickpack.Persistence.Repository
@@ -227,6 +217,37 @@ namespace Quickpack.Persistence.Repository
                 };
                 return response;
 
+            }
+        }
+        public async Task<ObtenerBeneficioQueryDTO> ObtenerBeneficio(ObtenerBeneficioQuery query)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                List<ObtenerBeneficio> beneficios = new();
+                ObtenerBeneficioQueryDTO response = new();
+                DynamicParameters parameters = new DynamicParameters();
+
+                parameters.Add("@pidCategoria", query.IdCategoria, DbType.Int32, ParameterDirection.Input);
+                parameters.Add("@descripcion", "", DbType.String, ParameterDirection.Output);
+
+                using (var reader = await cnx.ExecuteReaderAsync(
+                    "[dbo].[usp_ObtenerBeneficio]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure))
+                {
+                    while (reader.Read())
+                    {
+                        beneficios.Add(new ObtenerBeneficio()
+                        {
+                            IdBeneficio = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
+                            Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString(),
+                        });
+                    }
+                }
+                response.Descripcion = parameters.Get<string>("@descripcion");
+                response.Beneficios = beneficios;
+
+                return response;
             }
         }
 
