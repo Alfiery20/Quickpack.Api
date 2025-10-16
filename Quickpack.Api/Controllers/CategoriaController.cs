@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Quickpack.Api.Filter;
 using Quickpack.Application.Categoria.Command.AgregarBeneficios;
+using Quickpack.Application.Categoria.Command.AgregarCaracteristica;
 using Quickpack.Application.Categoria.Command.AgregarCategoria;
 using Quickpack.Application.Categoria.Command.CambiarEstadoCategoria;
 using Quickpack.Application.Categoria.Command.EditarCategoria;
+using Quickpack.Application.Categoria.Command.EliminarCaracteristica;
 using Quickpack.Application.Categoria.Query.ObtenerBeneficio;
+using Quickpack.Application.Categoria.Query.ObtenerCaracteristica;
 using Quickpack.Application.Categoria.Query.ObtenerCategoria;
 using Quickpack.Application.Categoria.Query.ObtenerCategoriaMenu;
+using Quickpack.Application.Categoria.Query.VerCaracteristica;
 using Quickpack.Application.Categoria.Query.VerCategoria;
 
 namespace Quickpack.Api.Controllers
@@ -95,6 +99,51 @@ namespace Quickpack.Api.Controllers
             var response = await Mediator.Send(new ObtenerBeneficioQuery()
             {
                 IdCategoria = idCategoria
+            });
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("agregarCaracteristica")]
+        [ProducesResponseType(typeof(AgregarCaracteristicaCommandDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> AgregarCaracteristica(AgregarCaracteristicaCommand command)
+        {
+            var response = await Mediator.Send(command);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("obtenerCaracteristica/{idCategoria}")]
+        [ProducesResponseType(typeof(ObtenerCaracteristicaQueryDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ObtenerCaracteristica(int idCategoria)
+        {
+            var response = await Mediator.Send(new ObtenerCaracteristicaQuery()
+            {
+                IdCategoria = idCategoria
+            });
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("verCaracteristica/{idCaracteristica}")]
+        [ProducesResponseType(typeof(VerCaracteristicaQueryDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> VerCaracteristica(int idCaracteristica)
+        {
+            var response = await Mediator.Send(new VerCaracteristicaQuery()
+            {
+                IdCaracteristica = idCaracteristica
+            });
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("eliminarCaracteristica/{idCaracteristica}")]
+        [ProducesResponseType(typeof(EliminarCaracteristicaCommandDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> EliminarCaracteristica(int idCaracteristica)
+        {
+            var response = await Mediator.Send(new EliminarCaracteristicaCommand()
+            {
+                IdCaracteristica = idCaracteristica
             });
             return Ok(response);
         }

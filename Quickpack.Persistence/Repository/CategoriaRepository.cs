@@ -1,12 +1,16 @@
 ﻿using Dapper;
 using Microsoft.Extensions.DependencyInjection;
 using Quickpack.Application.Categoria.Command.AgregarBeneficios;
+using Quickpack.Application.Categoria.Command.AgregarCaracteristica;
 using Quickpack.Application.Categoria.Command.AgregarCategoria;
 using Quickpack.Application.Categoria.Command.CambiarEstadoCategoria;
 using Quickpack.Application.Categoria.Command.EditarCategoria;
+using Quickpack.Application.Categoria.Command.EliminarCaracteristica;
 using Quickpack.Application.Categoria.Query.ObtenerBeneficio;
+using Quickpack.Application.Categoria.Query.ObtenerCaracteristica;
 using Quickpack.Application.Categoria.Query.ObtenerCategoria;
 using Quickpack.Application.Categoria.Query.ObtenerCategoriaMenu;
+using Quickpack.Application.Categoria.Query.VerCaracteristica;
 using Quickpack.Application.Categoria.Query.VerCategoria;
 using Quickpack.Application.Common.Interface;
 using Quickpack.Application.Common.Interface.Repositories;
@@ -247,6 +251,107 @@ namespace Quickpack.Persistence.Repository
                 response.Descripcion = parameters.Get<string>("@descripcion");
                 response.Beneficios = beneficios;
 
+                return response;
+            }
+        }
+        public async Task<AgregarCaracteristicaCommandDTO> AgregarCaracteristica(AgregarCaracteristicaCommand query)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                DynamicParameters parameters = new DynamicParameters();
+
+                parameters.Add("@pidCategoria", query.IdCategoria, DbType.Int32, ParameterDirection.Input);
+                parameters.Add("@pnombre", query.Nombre, DbType.String, ParameterDirection.Input);
+                parameters.Add("@pdescripcion", query.Descripcion, DbType.String, ParameterDirection.Input);
+                parameters.Add("@parchivo", query.Archivo, DbType.String, ParameterDirection.Input);
+                parameters.Add("@codigo", "", DbType.String, ParameterDirection.Output);
+                parameters.Add("@msj", "", DbType.String, ParameterDirection.Output);
+
+                var reader = await cnx.ExecuteAsync(
+                    "[dbo].[usp_AgregarCaracteristica]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure);
+
+                AgregarCaracteristicaCommandDTO response = new()
+                {
+                    Codigo = parameters.Get<string>("@codigo"),
+                    Mensaje = parameters.Get<string>("@msj"),
+                };
+                return response;
+            }
+        }
+        public async Task<IEnumerable<ObtenerCaracteristicaQueryDTO>> ObtenerCaracteristica(ObtenerCaracteristicaQuery query)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                List<ObtenerCaracteristicaQueryDTO> response = new();
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@pidCategoria", query.IdCategoria, DbType.Int32, ParameterDirection.Input);
+
+                using (var reader = await cnx.ExecuteReaderAsync(
+                    "[dbo].[usp_ObtenerCaracteristica]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure))
+                {
+                    while (reader.Read())
+                    {
+                        response.Add(new ObtenerCaracteristicaQueryDTO()
+                        {
+                            Id = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
+                            Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString(),
+                        });
+                    }
+                }
+                return response;
+            }
+        }
+        public async Task<VerCaracteristicaQueryDTO> VerCaracteristica(VerCaracteristicaQuery query)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                VerCaracteristicaQueryDTO response = new();
+                parameters.Add("@pIdCategoria", query.IdCaracteristica, DbType.Int32, ParameterDirection.Input);
+
+                using (var reader = await cnx.ExecuteReaderAsync(
+                    "[dbo].[usp_VerCaracteristica]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure))
+                {
+                    while (reader.Read())
+                    {
+                        response = new VerCaracteristicaQueryDTO()
+                        {
+                            Id = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
+                            Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString(),
+                            Descripcion = Convert.IsDBNull(reader["DESCRIPCION"]) ? "" : reader["DESCRIPCION"].ToString(),
+                            Multimedia = Convert.IsDBNull(reader["MULTIMEDIA"]) ? "" : reader["MULTIMEDIA"].ToString(),
+                        };
+                    }
+                }
+                return response;
+            }
+        }
+        public async Task<EliminarCaracteristicaCommandDTO> EliminarCaracteristica(EliminarCaracteristicaCommand query)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                DynamicParameters parameters = new DynamicParameters();
+
+                parameters.Add("@pidCaracteristica", query.IdCaracteristica, DbType.Int32, ParameterDirection.Input);
+                parameters.Add("@codigo", "", DbType.String, ParameterDirection.Output);
+                parameters.Add("@msj", "", DbType.String, ParameterDirection.Output);
+
+                var reader = await cnx.ExecuteAsync(
+                    "[dbo].[usp_EliminarCaracteristica]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure);
+
+                EliminarCaracteristicaCommandDTO response = new()
+                {
+                    Codigo = parameters.Get<string>("@codigo"),
+                    Mensaje = parameters.Get<string>("@msj"),
+                };
                 return response;
             }
         }
