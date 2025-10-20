@@ -311,7 +311,7 @@ namespace Quickpack.Persistence.Repository
             {
                 DynamicParameters parameters = new DynamicParameters();
                 VerCaracteristicaQueryDTO response = new();
-                parameters.Add("@pIdCategoria", query.IdCaracteristica, DbType.Int32, ParameterDirection.Input);
+                parameters.Add("@pidCaracteristica", query.IdCaracteristica, DbType.Int32, ParameterDirection.Input);
 
                 using (var reader = await cnx.ExecuteReaderAsync(
                     "[dbo].[usp_VerCaracteristica]",
