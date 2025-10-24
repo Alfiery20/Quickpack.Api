@@ -13,12 +13,12 @@ namespace Quickpack.Application.Producto.Command.EditarProducto
 {
     public class EditarProductoCommandHandler : IRequestHandler<EditarProductoCommand, EditarProductoCommandDTO>
     {
-        private readonly ILogger<AgregarProductoCommandHandler> _logger;
+        private readonly ILogger<EditarProductoCommandHandler> _logger;
         private readonly IProductoRepository _productoRepository;
         private readonly IDateTimeService _dateTimeService;
 
         public EditarProductoCommandHandler(
-            ILogger<AgregarProductoCommandHandler> logger,
+            ILogger<EditarProductoCommandHandler> logger,
             IProductoRepository productoRepository,
             IDateTimeService dateTimeService)
         {

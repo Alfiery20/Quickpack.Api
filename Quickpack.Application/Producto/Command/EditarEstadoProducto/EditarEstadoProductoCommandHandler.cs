@@ -12,11 +12,11 @@ namespace Quickpack.Application.Producto.Command.EditarEstadoProducto
 {
     public class EditarEstadoProductoCommandHandler : IRequestHandler<EditarEstadoProductoCommand, EditarEstadoProductoCommandDTO>
     {
-        private readonly ILogger<AgregarProductoCommandHandler> _logger;
+        private readonly ILogger<EditarEstadoProductoCommandHandler> _logger;
         private readonly IProductoRepository _productoRepository;
 
         public EditarEstadoProductoCommandHandler(
-            ILogger<AgregarProductoCommandHandler> logger,
+            ILogger<EditarEstadoProductoCommandHandler> logger,
             IProductoRepository productoRepository)
         {
             this._logger = logger;

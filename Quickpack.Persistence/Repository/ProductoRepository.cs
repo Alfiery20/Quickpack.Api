@@ -7,10 +7,13 @@ using Quickpack.Application.Categoria.Query.ObtenerCategoria;
 using Quickpack.Application.Categoria.Query.VerCategoria;
 using Quickpack.Application.Common.Interface;
 using Quickpack.Application.Common.Interface.Repositories;
+using Quickpack.Application.Producto.Command.AgregarFichaTecnica;
 using Quickpack.Application.Producto.Command.AgregarProducto;
 using Quickpack.Application.Producto.Command.EditarEstadoProducto;
+using Quickpack.Application.Producto.Command.EditarFichaTecnica;
 using Quickpack.Application.Producto.Command.EditarProducto;
 using Quickpack.Application.Producto.Query.ObtenerProducto;
+using Quickpack.Application.Producto.Query.VerFichaTecnica;
 using Quickpack.Application.Producto.Query.VerProducto;
 using Quickpack.Persistence.Database;
 using System;
@@ -188,6 +191,151 @@ namespace Quickpack.Persistence.Repository
                 };
                 return response;
 
+            }
+        }
+        public async Task<AgregarFichaTecnicaCommandDTO> AgregarFichaTecnica(AgregarFichaTecnicaCommand command)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                DynamicParameters parameters = new DynamicParameters();
+
+                parameters.Add("@pidProducto", command.IdProducto, DbType.Int32, ParameterDirection.Input);
+
+                parameters.Add("@plargoCamara", command.LargoCamara, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@panchoCamara", command.AnchoCamara, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@paltoCamara", command.AltoCamara, DbType.Double, ParameterDirection.Input);
+
+                parameters.Add("@plargoMaquina", command.LargoMaquina, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@panchoMaquina", command.AnchoMaquina, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@paltoMaquina", command.AltoMaquina, DbType.Double, ParameterDirection.Input);
+
+                parameters.Add("@pbarraSellado", command.BarraSellado, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@pcapacidadBomba", command.CapacidadBomba, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@pcicloInferior", command.CicloInferior, DbType.Int32, ParameterDirection.Input);
+                parameters.Add("@pcicloSuperior", command.CicloSuperior, DbType.Int32, ParameterDirection.Input);
+
+                parameters.Add("@ppeso", command.Peso, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@ppotenciaSuperior", command.PotenciaSuperior, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@ppotenciaInferior", command.PotenciaInferior, DbType.Double, ParameterDirection.Input);
+
+                parameters.Add("@pplacaInsercion", command.PlacaInsercion, DbType.Int32, ParameterDirection.Input);
+                parameters.Add("@psistemaControl", command.SistemaControl, DbType.String, ParameterDirection.Input);
+                parameters.Add("@pdeteccionVacioFinal", command.DeteccionVacioFinal, DbType.String, ParameterDirection.Input);
+                parameters.Add("@pdeteccionCarne", command.DeteccionCarne, DbType.String, ParameterDirection.Input);
+                parameters.Add("@psoftAir", command.SoftAir, DbType.String, ParameterDirection.Input);
+                parameters.Add("@pcontrolLiquidos", command.ControlLiquidos, DbType.String, ParameterDirection.Input);
+
+                parameters.Add("@codigo", "", DbType.String, ParameterDirection.Output);
+                parameters.Add("@msj", "", DbType.String, ParameterDirection.Output);
+
+                var reader = await cnx.ExecuteAsync(
+                    "[dbo].[usp_RegistrarFichaTecnica]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure);
+
+                AgregarFichaTecnicaCommandDTO response = new()
+                {
+                    Codigo = parameters.Get<string>("@codigo"),
+                    Mensaje = parameters.Get<string>("@msj"),
+                };
+                return response;
+
+            }
+        }
+        public async Task<EditarFichaTecnicaCommandDTO> EditarFichaTecnica(EditarFichaTecnicaCommand command)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                DynamicParameters parameters = new DynamicParameters();
+
+                parameters.Add("@pidProducto", command.IdProducto, DbType.Int32, ParameterDirection.Input);
+
+                parameters.Add("@plargoCamara", command.LargoCamara, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@panchoCamara", command.AnchoCamara, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@paltoCamara", command.AltoCamara, DbType.Double, ParameterDirection.Input);
+
+                parameters.Add("@plargoMaquina", command.LargoMaquina, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@panchoMaquina", command.AnchoMaquina, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@paltoMaquina", command.AltoMaquina, DbType.Double, ParameterDirection.Input);
+
+                parameters.Add("@pbarraSellado", command.BarraSellado, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@pcapacidadBomba", command.CapacidadBomba, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@pcicloInferior", command.CicloInferior, DbType.Int32, ParameterDirection.Input);
+                parameters.Add("@pcicloSuperior", command.CicloSuperior, DbType.Int32, ParameterDirection.Input);
+
+                parameters.Add("@ppeso", command.Peso, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@ppotenciaSuperior", command.PotenciaSuperior, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@ppotenciaInferior", command.PotenciaInferior, DbType.Double, ParameterDirection.Input);
+
+                parameters.Add("@pplacaInsercion", command.PlacaInsercion, DbType.Int32, ParameterDirection.Input);
+                parameters.Add("@psistemaControl", command.SistemaControl, DbType.String, ParameterDirection.Input);
+                parameters.Add("@pdeteccionVacioFinal", command.DeteccionVacioFinal, DbType.String, ParameterDirection.Input);
+                parameters.Add("@pdeteccionCarne", command.DeteccionCarne, DbType.String, ParameterDirection.Input);
+                parameters.Add("@psoftAir", command.SoftAir, DbType.String, ParameterDirection.Input);
+                parameters.Add("@pcontrolLiquidos", command.ControlLiquidos, DbType.String, ParameterDirection.Input);
+
+                parameters.Add("@codigo", "", DbType.String, ParameterDirection.Output);
+                parameters.Add("@msj", "", DbType.String, ParameterDirection.Output);
+
+                var reader = await cnx.ExecuteAsync(
+                    "[dbo].[usp_EditarFichaTecnica]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure);
+
+                EditarFichaTecnicaCommandDTO response = new()
+                {
+                    Codigo = parameters.Get<string>("@codigo"),
+                    Mensaje = parameters.Get<string>("@msj"),
+                };
+                return response;
+
+            }
+        }
+        public async Task<VerFichaTecnicaQueryDTO> VerFichaTecnica(VerFichaTecnicaQuery query)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                VerFichaTecnicaQueryDTO response = new();
+                parameters.Add("@pidProducto", query.IdProducto, DbType.Int32, ParameterDirection.Input);
+
+                using (var reader = await cnx.ExecuteReaderAsync(
+                    "[dbo].[usp_VerFichaTecnica]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure))
+                {
+                    while (reader.Read())
+                    {
+                        response = new VerFichaTecnicaQueryDTO()
+                        {
+                            Id = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
+                            LargoCamara = Convert.IsDBNull(reader["LARGO_CAMARA"]) ? 0.00 : Convert.ToDouble(reader["LARGO_CAMARA"].ToString()),
+                            AnchoCamara = Convert.IsDBNull(reader["ANCHO_CAMARA"]) ? 0.00 : Convert.ToDouble(reader["ANCHO_CAMARA"].ToString()),
+                            AltoCamara = Convert.IsDBNull(reader["ALTO_CAMARA"]) ? 0.00 : Convert.ToDouble(reader["ALTO_CAMARA"].ToString()),
+
+                            LargoMaquina = Convert.IsDBNull(reader["LARGO_MAQUINA"]) ? 0.00 : Convert.ToDouble(reader["LARGO_MAQUINA"].ToString()),
+                            AnchoMaquina = Convert.IsDBNull(reader["ANCHO_MAQUINA"]) ? 0.00 : Convert.ToDouble(reader["ANCHO_MAQUINA"].ToString()),
+                            AltoMaquina = Convert.IsDBNull(reader["ALTO_MAQUINA"]) ? 0.00 : Convert.ToDouble(reader["ALTO_MAQUINA"].ToString()),
+
+                            BarraSellado = Convert.IsDBNull(reader["BARRA_SELLADO"]) ? 0.00 : Convert.ToDouble(reader["BARRA_SELLADO"].ToString()),
+                            CapacidadBomba = Convert.IsDBNull(reader["CAPACIDAD_BOMBA"]) ? 0.00 : Convert.ToDouble(reader["CAPACIDAD_BOMBA"].ToString()),
+                            CicloInferior = Convert.IsDBNull(reader["CICLO_INFERIOR"]) ? 0 : Convert.ToInt32(reader["CICLO_INFERIOR"].ToString()),
+                            CicloSuperior = Convert.IsDBNull(reader["CICLO_SUPERIOR"]) ? 0 : Convert.ToInt32(reader["CICLO_SUPERIOR"].ToString()),
+
+                            Peso = Convert.IsDBNull(reader["PESO"]) ? 0.00 : Convert.ToDouble(reader["PESO"].ToString()),
+                            PotenciaInferior = Convert.IsDBNull(reader["POTENCIA_INFERIOR"]) ? 0.00 : Convert.ToDouble(reader["POTENCIA_INFERIOR"].ToString()),
+                            PotenciaSuperior = Convert.IsDBNull(reader["POTENCIA_SUPERIOR"]) ? 0.00 : Convert.ToDouble(reader["POTENCIA_SUPERIOR"].ToString()),
+                            
+                            PlacaInsercion = Convert.IsDBNull(reader["PLACA_INSERCION"]) ? 0 : Convert.ToInt32(reader["PLACA_INSERCION"].ToString()),
+                            SistemaControl = Convert.IsDBNull(reader["SISTEMA_CONTROL"]) ? "" : reader["SISTEMA_CONTROL"].ToString(),
+                            DeteccionVacioFinal = Convert.IsDBNull(reader["DETECCION_VACIO_FINAL"]) ? "" : reader["DETECCION_VACIO_FINAL"].ToString(),
+                            DeteccionCarne = Convert.IsDBNull(reader["DETECCION_CARNE"]) ? "" : reader["DETECCION_CARNE"].ToString(),
+                            SoftAir = Convert.IsDBNull(reader["SOFTAIR"]) ? "" : reader["SOFTAIR"].ToString(),
+                            ControlLiquidos = Convert.IsDBNull(reader["CONTROL_LIQUIDOS"]) ? "" : reader["CONTROL_LIQUIDOS"].ToString()
+                        };
+                    }
+                }
+                return response;
             }
         }
     }

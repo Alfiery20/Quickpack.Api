@@ -12,11 +12,11 @@ namespace Quickpack.Application.Producto.Query.ObtenerProducto
 {
     public class ObtenerProductoQueryHandler : IRequestHandler<ObtenerProductoQuery, ObtenerProductoQueryDTO>
     {
-        private readonly ILogger<AgregarProductoCommandHandler> _logger;
+        private readonly ILogger<ObtenerProductoQueryHandler> _logger;
         private readonly IProductoRepository _productoRepository;
 
         public ObtenerProductoQueryHandler(
-            ILogger<AgregarProductoCommandHandler> logger,
+            ILogger<ObtenerProductoQueryHandler> logger,
             IProductoRepository productoRepository)
         {
             this._logger = logger;

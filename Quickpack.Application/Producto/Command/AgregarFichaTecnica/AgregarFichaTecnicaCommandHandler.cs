@@ -1,32 +1,30 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Quickpack.Application.Common.Interface.Repositories;
-using Quickpack.Application.Producto.Command.AgregarProducto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Quickpack.Application.Producto.Query.VerProducto
+namespace Quickpack.Application.Producto.Command.AgregarFichaTecnica
 {
-    public class VerProductoQueryHandler : IRequestHandler<VerProductoQuery, VerProductoQueryDTO>
+    public class AgregarFichaTecnicaCommandHandler : IRequestHandler<AgregarFichaTecnicaCommand, AgregarFichaTecnicaCommandDTO>
     {
-        private readonly ILogger<VerProductoQueryHandler> _logger;
+        private readonly ILogger<AgregarFichaTecnicaCommandHandler> _logger;
         private readonly IProductoRepository _productoRepository;
 
-        public VerProductoQueryHandler(
-            ILogger<VerProductoQueryHandler> logger,
+        public AgregarFichaTecnicaCommandHandler(
+            ILogger<AgregarFichaTecnicaCommandHandler> logger,
             IProductoRepository productoRepository)
         {
             this._logger = logger;
             this._productoRepository = productoRepository;
         }
-
-        public Task<VerProductoQueryDTO> Handle(VerProductoQuery request, CancellationToken cancellationToken)
+        public Task<AgregarFichaTecnicaCommandDTO> Handle(AgregarFichaTecnicaCommand request, CancellationToken cancellationToken)
         {
             this._logger.LogInformation("Iniciando handler agregar empleado");
-            var response = this._productoRepository.VerProducto(request);
+            var response = this._productoRepository.AgregarFichaTecnica(request);
             this._logger.LogInformation("Finalizando handler agregar empleado");
             return response;
         }

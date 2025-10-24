@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Quickpack.Api.Filter;
+using Quickpack.Application.Producto.Command.AgregarFichaTecnica;
 using Quickpack.Application.Producto.Command.AgregarProducto;
 using Quickpack.Application.Producto.Command.EditarEstadoProducto;
+using Quickpack.Application.Producto.Command.EditarFichaTecnica;
 using Quickpack.Application.Producto.Command.EditarProducto;
 using Quickpack.Application.Producto.Query.ObtenerProducto;
+using Quickpack.Application.Producto.Query.VerFichaTecnica;
 using Quickpack.Application.Producto.Query.VerProducto;
 
 namespace Quickpack.Api.Controllers
@@ -65,6 +68,38 @@ namespace Quickpack.Api.Controllers
             {
                 IdProducto = idProducto
             });
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("agregarFichaTecnica")]
+        [ProducesResponseType(typeof(AgregarFichaTecnicaCommandDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> AgregarFichaTecnica(AgregarFichaTecnicaCommand command)
+        {
+            var response = await Mediator.Send(command);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("verFichaTecnica/{idProducto}")]
+        [ProducesResponseType(typeof(VerFichaTecnicaQueryDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> VerFichaTecnica(int idProducto)
+        {
+            var response = await Mediator.Send(
+                    new VerFichaTecnicaQuery()
+                    {
+                        IdProducto = idProducto
+                    }
+                );
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("editarFichaTecnica")]
+        [ProducesResponseType(typeof(EditarFichaTecnicaCommandDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> EditarFichaTecnica(EditarFichaTecnicaCommand command)
+        {
+            var response = await Mediator.Send(command);
             return Ok(response);
         }
     }
