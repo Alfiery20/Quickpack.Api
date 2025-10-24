@@ -23,13 +23,11 @@ namespace Quickpack.Persistence.Repository
     public class CategoriaRepository : ICategoriaRepository
     {
         private readonly IDataBase _dataBase;
-        private readonly ICryptography _cryptography;
 
-        public CategoriaRepository(IServiceProvider serviceProvider, ICryptography cryptography)
+        public CategoriaRepository(IServiceProvider serviceProvider)
         {
             var services = serviceProvider.GetServices<IDataBase>();
             _dataBase = services.First(s => s.GetType() == typeof(SqlDataBase));
-            this._cryptography = cryptography;
         }
 
         public async Task<AgregarCategoriaCommandDTO> AgregarCategoria(AgregarCategoriaCommand command)

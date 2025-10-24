@@ -75,7 +75,7 @@ namespace Quickpack.Api.Controllers
 
         [HttpGet]
         [Route("obtenerCategoriaMenu")]
-        [ProducesResponseType(typeof(ObtenerCategoriaQueryDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ObtenerCategoriaMenuQueryDTO), StatusCodes.Status200OK)]
         public async Task<IActionResult> ObtenerCategoriaMenu()
         {
             var response = await Mediator.Send(new ObtenerCategoriaMenuQuery());

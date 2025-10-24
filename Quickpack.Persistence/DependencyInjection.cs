@@ -17,6 +17,7 @@ namespace Quickpack.Persistence
             services.AddSingleton<IEmpleadoRepository, EmpleadoRepository>();
             services.AddSingleton<ITipoProductoRepository, TipoProductoRepository>();
             services.AddSingleton<ICategoriaRepository, CategoriaRepository>();
+            services.AddSingleton<IProductoRepository, ProductoRepository>();
 
             return services;
         }
