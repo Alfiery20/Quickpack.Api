@@ -20,8 +20,7 @@ namespace Quickpack.Application.Producto.Query.VerFichaTecnica
         public int CicloInferior { get; set; }
         public int CicloSuperior { get; set; }
         public double Peso { get; set; }
-        public double PotenciaSuperior { get; set; }
-        public double PotenciaInferior { get; set; }
+        public double Potencia { get; set; }
         public int PlacaInsercion { get; set; }
         public string SistemaControl { get; set; }
         public string DeteccionVacioFinal { get; set; }

@@ -215,8 +215,7 @@ namespace Quickpack.Persistence.Repository
                 parameters.Add("@pcicloSuperior", command.CicloSuperior, DbType.Int32, ParameterDirection.Input);
 
                 parameters.Add("@ppeso", command.Peso, DbType.Double, ParameterDirection.Input);
-                parameters.Add("@ppotenciaSuperior", command.PotenciaSuperior, DbType.Double, ParameterDirection.Input);
-                parameters.Add("@ppotenciaInferior", command.PotenciaInferior, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@ppotencia", command.Potencia, DbType.Double, ParameterDirection.Input);
 
                 parameters.Add("@pplacaInsercion", command.PlacaInsercion, DbType.Int32, ParameterDirection.Input);
                 parameters.Add("@psistemaControl", command.SistemaControl, DbType.String, ParameterDirection.Input);
@@ -264,8 +263,7 @@ namespace Quickpack.Persistence.Repository
                 parameters.Add("@pcicloSuperior", command.CicloSuperior, DbType.Int32, ParameterDirection.Input);
 
                 parameters.Add("@ppeso", command.Peso, DbType.Double, ParameterDirection.Input);
-                parameters.Add("@ppotenciaSuperior", command.PotenciaSuperior, DbType.Double, ParameterDirection.Input);
-                parameters.Add("@ppotenciaInferior", command.PotenciaInferior, DbType.Double, ParameterDirection.Input);
+                parameters.Add("@ppotencia", command.Potencia, DbType.Double, ParameterDirection.Input);
 
                 parameters.Add("@pplacaInsercion", command.PlacaInsercion, DbType.Int32, ParameterDirection.Input);
                 parameters.Add("@psistemaControl", command.SistemaControl, DbType.String, ParameterDirection.Input);
@@ -323,8 +321,7 @@ namespace Quickpack.Persistence.Repository
                             CicloSuperior = Convert.IsDBNull(reader["CICLO_SUPERIOR"]) ? 0 : Convert.ToInt32(reader["CICLO_SUPERIOR"].ToString()),
 
                             Peso = Convert.IsDBNull(reader["PESO"]) ? 0.00 : Convert.ToDouble(reader["PESO"].ToString()),
-                            PotenciaInferior = Convert.IsDBNull(reader["POTENCIA_INFERIOR"]) ? 0.00 : Convert.ToDouble(reader["POTENCIA_INFERIOR"].ToString()),
-                            PotenciaSuperior = Convert.IsDBNull(reader["POTENCIA_SUPERIOR"]) ? 0.00 : Convert.ToDouble(reader["POTENCIA_SUPERIOR"].ToString()),
+                            Potencia = Convert.IsDBNull(reader["POTENCIA"]) ? 0.00 : Convert.ToDouble(reader["POTENCIA"].ToString()),
                             
                             PlacaInsercion = Convert.IsDBNull(reader["PLACA_INSERCION"]) ? 0 : Convert.ToInt32(reader["PLACA_INSERCION"].ToString()),
                             SistemaControl = Convert.IsDBNull(reader["SISTEMA_CONTROL"]) ? "" : reader["SISTEMA_CONTROL"].ToString(),

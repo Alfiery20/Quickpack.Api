@@ -33,13 +33,13 @@ namespace Quickpack.Application.Autenticacion.command.IniciarSesion
             var response = await this._autenticacionRepository.IniciarSesion(request);
             if (response.Id != 0)
             {
-                response.Token = this.GenerateToken(response);
+                response.Token = this.GenerateToken(response, request.Recordar);
             }
             this._logger.LogInformation("Fin de handler para Iniciar Sesion");
             return response;
         }
 
-        private string GenerateToken(IniciarSesionCommandDTO command)
+        private string GenerateToken(IniciarSesionCommandDTO command, bool recordar)
         {
             var menus = this._autenticacionRepository.ObtenerMenu(new ObtenerMenuCommand()
             {
@@ -60,7 +60,7 @@ namespace Quickpack.Application.Autenticacion.command.IniciarSesion
                 new Claim("permisos", JsonSerializer.Serialize(menus))
             };
 
-            var token = _jwtService.Generate(claims.ToArray(), this._dateTimeService.HoraLocal());
+            var token = _jwtService.Generate(claims.ToArray(), recordar, this._dateTimeService.HoraLocal());
 
             return token;
         }

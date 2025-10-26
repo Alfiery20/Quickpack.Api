@@ -6,5 +6,6 @@ namespace Quickpack.Application.Autenticacion.command.IniciarSesion
     {
         public string Correo { get; set; }
         public string Clave { get; set; }
+        public bool Recordar { get; set; }
     }
 }

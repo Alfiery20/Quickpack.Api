@@ -25,7 +25,7 @@ namespace Quickpack.Infrastructure.Services
             this._logger = logger;
         }
 
-        public string Generate(Claim[] claims, DateTime? experisUtc = null, string audience = null)
+        public string Generate(Claim[] claims, bool recordar, DateTime? experisUtc = null, string audience = null)
         {
             this._logger.LogInformation("Inicio de servicio de encriptación");
             var symmetricSecurity = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
@@ -34,7 +34,7 @@ namespace Quickpack.Infrastructure.Services
                         issuer: _jwtSettings.Issuer,
                         audience: audience,
                         claims: claims,
-                        expires: _dateTimeService.HoraActual().AddSeconds(_jwtSettings.ExpiresInSeconds),
+                        expires: recordar ? _dateTimeService.HoraActual().AddYears(1) : _dateTimeService.HoraActual().AddSeconds(_jwtSettings.ExpiresInSeconds),
                         signingCredentials: signingCredentials);
 
             var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
