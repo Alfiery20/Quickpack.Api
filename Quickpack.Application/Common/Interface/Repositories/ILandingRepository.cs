@@ -1,4 +1,5 @@
 ﻿using Quickpack.Application.Landing.Query.ObtenerCategoriaMenuLanding;
+using Quickpack.Application.Landing.Query.ObtenerTipoProductoLanding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,7 @@ namespace Quickpack.Application.Common.Interface.Repositories
     public interface ILandingRepository
     {
         Task<IEnumerable<ObtenerTipoProductoMenuLandingQueryDTO>> ObtenerTipoProductoMenuLanding(ObtenerTipoProductoMenuLandingQuery query);
+        Task<ObtenerTipoProductoLandingQueryDTO> ObtenerTipoProductoLanding(ObtenerTipoProductoLandingQuery query);
+        Task<List<CategoriaLanding>> ObtenerTipoProductoTipoProductoLanding(ObtenerTipoProductoLandingQuery query);
     }
 }

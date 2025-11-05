@@ -10,5 +10,7 @@ namespace Quickpack.Application.TipoProducto.Command.AgregarTipoProducto
     public class AgregarTipoProductoCommand : IRequest<AgregarTipoProductoCommandDTO>
     {
         public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public string Multimedia { get; set; }
     }
 }

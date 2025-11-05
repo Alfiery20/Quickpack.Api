@@ -11,6 +11,7 @@ namespace Quickpack.Application.Categoria.Command.EditarCategoria
     {
         public int IdCategoria { get; set; }
         public string Nombre { get; set; }
+        public string Multimedia { get; set; }
         public string Descripcion { get; set; }
         public int IdTipoProducto { get; set; }
     }

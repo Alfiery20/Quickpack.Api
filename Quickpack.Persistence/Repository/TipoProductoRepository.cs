@@ -56,6 +56,7 @@ namespace Quickpack.Persistence.Repository
                         {
                             Id = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
                             Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString(),
+                            Descripcion = Convert.IsDBNull(reader["DESCRIPCION"]) ? "" : reader["DESCRIPCION"].ToString(),
                             Estado = Convert.IsDBNull(reader["ESTADO"]) ? "" : reader["ESTADO"].ToString(),
                         });
                     }
@@ -76,6 +77,8 @@ namespace Quickpack.Persistence.Repository
                 DynamicParameters parameters = new DynamicParameters();
 
                 parameters.Add("@pnombre", command.Nombre.Trim(), DbType.String, ParameterDirection.Input);
+                parameters.Add("@pdescripcion", command.Descripcion.Trim(), DbType.String, ParameterDirection.Input);
+                parameters.Add("@pmultimedia", command.Multimedia, DbType.String, ParameterDirection.Input);
                 parameters.Add("@codigo", "", DbType.String, ParameterDirection.Output);
                 parameters.Add("@msj", "", DbType.String, ParameterDirection.Output);
 
@@ -101,6 +104,8 @@ namespace Quickpack.Persistence.Repository
 
                 parameters.Add("@pidTipoProducto", command.IdTipoProducto, DbType.Int32, ParameterDirection.Input);
                 parameters.Add("@pnombre", command.Nombre.Trim(), DbType.String, ParameterDirection.Input);
+                parameters.Add("@pdescripcion", command.Descripcion.Trim(), DbType.String, ParameterDirection.Input);
+                parameters.Add("@pmultimedia", command.Multimedia, DbType.String, ParameterDirection.Input);
                 parameters.Add("@codigo", "", DbType.String, ParameterDirection.Output);
                 parameters.Add("@msj", "", DbType.String, ParameterDirection.Output);
 
@@ -138,6 +143,8 @@ namespace Quickpack.Persistence.Repository
                         {
                             Id = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
                             Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString(),
+                            Descripcion = Convert.IsDBNull(reader["DESCRIPCION"]) ? "" : reader["DESCRIPCION"].ToString(),
+                            Multimedia = Convert.IsDBNull(reader["MULTIMEDIA"]) ? "" : reader["MULTIMEDIA"].ToString(),
                         };
                     }
                     return response;

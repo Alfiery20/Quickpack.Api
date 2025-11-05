@@ -10,5 +10,7 @@ namespace Quickpack.Application.TipoProducto.Query.VerTipoProducto
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public string Multimedia { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace Quickpack.Infrastructure
             services.AddSingleton<IJwtService, JwtService>();
             services.AddSingleton<IDateTimeService, DateTimeService>();
             services.AddSingleton<ICryptography, Cryptography>();
+            services.AddSingleton<IEmealService, EmealService>();
             return services;
         }
     }

@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo mensaje de contacto - Quickpack Perú</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(180deg, #f7f7f7 0%, #ececec 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #333;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            background-color: #c00000;
+            color: #fff;
+            text-align: center;
+            padding: 25px 20px;
+        }
+
+            .header img {
+                max-width: 150px;
+                margin-bottom: 10px;
+            }
+
+            .header h1 {
+                margin: 0;
+                font-size: 22px;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+            }
+
+        .content {
+            padding: 35px 40px;
+        }
+
+            .content h2 {
+                font-size: 18px;
+                color: #c00000;
+                border-left: 4px solid #c00000;
+                padding-left: 10px;
+                margin-top: 0;
+                margin-bottom: 25px;
+            }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .label {
+            font-weight: 600;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .value {
+            background-color: #fafafa;
+            padding: 12px 14px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            line-height: 1.4;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #eee;
+            margin: 30px 0;
+        }
+
+        .footer {
+            background-color: #f3f3f3;
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            padding: 20px 15px;
+        }
+
+            .footer a {
+                color: #c00000;
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+            }
+
+            .content {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Nuevo mensaje de contacto</h1>
+        </div>
+
+        <div class="content">
+            <h2>Detalles del contacto</h2>
+
+            <div class="field">
+                <span class="label">Tipo de Solicitud:</span>
+                <div class="value">{{TIPO_SOLICITUD}}</div>
+            </div>
+
+            <div class="field">
+                <span class="label">Nombre y Apellido:</span>
+                <div class="value">{{NOMBRE_COMPLETO}}</div>
+            </div>
+
+            <div class="field">
+                <span class="label">Dirección Email:</span>
+                <div class="value">{{EMAIL}}</div>
+            </div>
+
+            <div class="field">
+                <span class="label">Teléfono de Contacto:</span>
+                <div class="value">{{TELEFONO}}</div>
+            </div>
+
+            <div class="field">
+                <span class="label">Empresa:</span>
+                <div class="value">{{EMPRESA}}</div>
+            </div>
+
+            <div class="field">
+                <span class="label">Población:</span>
+                <div class="value">{{POBLACION}}</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="field">
+                <span class="label">Mensaje:</span>
+                <div class="value">{{MENSAJE}}</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            © Quickpack Perú S.A.C. - {{YEAR}}<br>
+            Todos los derechos reservados. |
+            <a href="https://www.quickpack.pe">www.quickpack.pe</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -24,4 +24,13 @@
     <ProjectReference Include="..\Quickpack.Persistence\Quickpack.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Utils\Templates\EmailTemplateNotification.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Utils\Templates\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

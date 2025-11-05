@@ -38,6 +38,7 @@ namespace Quickpack.Persistence.Repository
 
                 parameters.Add("@pnombre", command.Nombre.Trim(), DbType.String, ParameterDirection.Input);
                 parameters.Add("@pdescripcion", command.Descripcion.Trim(), DbType.String, ParameterDirection.Input);
+                parameters.Add("@pmultimedia", command.Multimedia, DbType.String, ParameterDirection.Input);
                 parameters.Add("@pidTipoProducto", command.IdTipoProducto, DbType.Int32, ParameterDirection.Input);
                 parameters.Add("@codigo", "", DbType.String, ParameterDirection.Output);
                 parameters.Add("@msj", "", DbType.String, ParameterDirection.Output);
@@ -138,6 +139,7 @@ namespace Quickpack.Persistence.Repository
                             IdCategoria = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
                             Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString(),
                             Descripcion = Convert.IsDBNull(reader["DESCRIPCION"]) ? "" : reader["DESCRIPCION"].ToString(),
+                            Multimedia = Convert.IsDBNull(reader["MULTIMEDIA"]) ? "" : reader["MULTIMEDIA"].ToString(),
                             IdTipoProducto = Convert.IsDBNull(reader["TIPO_PRODUCTO"]) ? 0 : Convert.ToInt32(reader["TIPO_PRODUCTO"].ToString()),
                         };
                     }
@@ -154,6 +156,7 @@ namespace Quickpack.Persistence.Repository
                 parameters.Add("@pidCategoria", command.IdCategoria, DbType.Int32, ParameterDirection.Input);
                 parameters.Add("@pnombre", command.Nombre.Trim(), DbType.String, ParameterDirection.Input);
                 parameters.Add("@pdescripcion", command.Descripcion.Trim(), DbType.String, ParameterDirection.Input);
+                parameters.Add("@pmultimedia", command.Multimedia, DbType.String, ParameterDirection.Input);
                 parameters.Add("@pidTipoProducto", command.IdTipoProducto, DbType.Int32, ParameterDirection.Input);
                 parameters.Add("@codigo", "", DbType.String, ParameterDirection.Output);
                 parameters.Add("@msj", "", DbType.String, ParameterDirection.Output);
