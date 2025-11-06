@@ -4,6 +4,7 @@ using Quickpack.Application.Categoria.Query.ObtenerCategoria;
 using Quickpack.Application.Categoria.Query.ObtenerCategoriaMenu;
 using Quickpack.Application.Common.Interface;
 using Quickpack.Application.Common.Interface.Repositories;
+using Quickpack.Application.Landing.Query.ObtenerCategoriaLanding;
 using Quickpack.Application.Landing.Query.ObtenerCategoriaMenuLanding;
 using Quickpack.Application.Landing.Query.ObtenerTipoProductoLanding;
 using Quickpack.Persistence.Database;
@@ -76,7 +77,7 @@ namespace Quickpack.Persistence.Repository
                 return response;
             }
         }
-        public async Task<List<CategoriaLanding>> ObtenerTipoProductoTipoProductoLanding(ObtenerTipoProductoLandingQuery query)
+        public async Task<List<CategoriaLanding>> ObtenerTipoProductoCategoriaLanding(ObtenerTipoProductoLandingQuery query)
         {
             using (var cnx = _dataBase.GetConnection())
             {
@@ -101,6 +102,94 @@ namespace Quickpack.Persistence.Repository
                         });
                     }
                 }
+                return response;
+            }
+        }
+        public async Task<ObtenerCategoriaLandingQueryDTO> ObtenerCategoriaLanding(ObtenerCategoriaLandingQuery query)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                ObtenerCategoriaLandingQueryDTO response = new();
+                DynamicParameters parameters = new DynamicParameters();
+
+                parameters.Add("@pIdTipoProducto", query.IdTipoProducto, DbType.Int32, ParameterDirection.Input);
+                parameters.Add("@pIdCategoria", query.IdCategoria, DbType.Int32, ParameterDirection.Input);
+
+                using (var reader = await cnx.ExecuteReaderAsync(
+                    "[dbo].[usp_ObtenerLandingCategoria]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure))
+                {
+                    while (reader.Read())
+                    {
+                        response = new ObtenerCategoriaLandingQueryDTO()
+                        {
+                            Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString(),
+                            Descripcion = Convert.IsDBNull(reader["DESCRIPCION"]) ? "" : reader["DESCRIPCION"].ToString(),
+                            Multimedia = Convert.IsDBNull(reader["MULTIMEDIA"]) ? "" : reader["MULTIMEDIA"].ToString()
+                        };
+                    }
+                }
+                return response;
+            }
+        }
+        public async Task<List<ProductoLanding>> ObtenerCategoriaProductoLanding(ObtenerCategoriaLandingQuery query)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                List<ProductoLanding> response = new();
+                DynamicParameters parameters = new DynamicParameters();
+
+                parameters.Add("@pIdCategoria", query.IdCategoria, DbType.Int32, ParameterDirection.Input);
+
+                using (var reader = await cnx.ExecuteReaderAsync(
+                    "[dbo].[usp_ObtenerLandingCategoriaProductos]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure))
+                {
+                    while (reader.Read())
+                    {
+                        response.Add(new ProductoLanding()
+                        {
+                            IdProducto = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
+                            Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString(),
+                            Descripcion = Convert.IsDBNull(reader["DESCRIPCION"]) ? "" : reader["DESCRIPCION"].ToString(),
+                            Multimedia = Convert.IsDBNull(reader["MULTIMEDIA"]) ? "" : reader["MULTIMEDIA"].ToString()
+                        });
+                    }
+                }
+                return response;
+            }
+        }
+        public async Task<BeneficioCategoriaLanding> ObtenerBeneficioCategoriaLanding(ObtenerCategoriaLandingQuery query)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                List<BeneficioLanding> beneficios = new();
+                DynamicParameters parameters = new DynamicParameters();
+
+                parameters.Add("@pIdCategoria", query.IdCategoria, DbType.Int32, ParameterDirection.Input);
+                parameters.Add("@descripcion", "", DbType.String, ParameterDirection.Output);
+
+                using (var reader = await cnx.ExecuteReaderAsync(
+                    "[dbo].[usp_ObtenerBeneficioCategoriaLanding]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure))
+                {
+                    while (reader.Read())
+                    {
+                        beneficios.Add(new BeneficioLanding()
+                        {
+                            Id = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
+                            Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString()
+                        });
+                    }
+                }
+                BeneficioCategoriaLanding response = new()
+                {
+                    Descripcion = parameters.Get<string>("@descripcion"),
+                    Beneficios = beneficios,
+                };
                 return response;
             }
         }

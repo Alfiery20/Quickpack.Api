@@ -25,7 +25,7 @@ namespace Quickpack.Application.Landing.Query.ObtenerTipoProductoLanding
         {
             this._logger.LogInformation("Iniciando handler agregar empleado");
             var response = await this._landingRepository.ObtenerTipoProductoLanding(request);
-            response.Categorias = await this._landingRepository.ObtenerTipoProductoTipoProductoLanding(request);
+            response.Categorias = await this._landingRepository.ObtenerTipoProductoCategoriaLanding(request);
             this._logger.LogInformation("Finalizando handler agregar empleado");
             return response;
         }

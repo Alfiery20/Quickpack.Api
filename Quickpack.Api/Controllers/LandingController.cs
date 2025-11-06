@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Quickpack.Application.Landing.Command.EnviarConsulta;
+using Quickpack.Application.Landing.Query.ObtenerCategoriaLanding;
 using Quickpack.Application.Landing.Query.ObtenerTipoProductoLanding;
 using Quickpack.Application.TipoProducto.Query.ObtenerTipoProducto;
 using Quickpack.Application.TipoProducto.Query.ObtenerTipoProductoMenu;
@@ -39,6 +40,21 @@ namespace Quickpack.Api.Controllers
                 new ObtenerTipoProductoLandingQuery()
                 {
                     IdTipoProducto = id
+                }
+                );
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("obtenerTipoProductoLanding/{idTipoProducto}/categoria/{idCategoria}")]
+        [ProducesResponseType(typeof(ObtenerCategoriaLandingQueryDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ObtenerCategoriaLanding(int idTipoProducto, int idCategoria)
+        {
+            var response = await Mediator.Send(
+                new ObtenerCategoriaLandingQuery()
+                {
+                    IdTipoProducto = idTipoProducto,
+                    IdCategoria = idCategoria
                 }
                 );
             return Ok(response);
