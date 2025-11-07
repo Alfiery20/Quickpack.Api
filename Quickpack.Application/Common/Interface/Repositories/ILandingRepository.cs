@@ -17,5 +17,7 @@ namespace Quickpack.Application.Common.Interface.Repositories
         Task<ObtenerCategoriaLandingQueryDTO> ObtenerCategoriaLanding(ObtenerCategoriaLandingQuery query);
         Task<List<ProductoLanding>> ObtenerCategoriaProductoLanding(ObtenerCategoriaLandingQuery query);
         Task<BeneficioCategoriaLanding> ObtenerBeneficioCategoriaLanding(ObtenerCategoriaLandingQuery query);
+        Task<List<CaracteristicaLanding>> ObtenerCaracteristicaLanding(ObtenerCategoriaLandingQuery query);
+        Task<List<FichaTecnicaLanding>> ObtenerFichaTecnicaLanding(ObtenerCategoriaLandingQuery query);
     }
 }

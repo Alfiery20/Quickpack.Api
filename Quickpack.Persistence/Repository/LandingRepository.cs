@@ -154,7 +154,8 @@ namespace Quickpack.Persistence.Repository
                             IdProducto = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
                             Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString(),
                             Descripcion = Convert.IsDBNull(reader["DESCRIPCION"]) ? "" : reader["DESCRIPCION"].ToString(),
-                            Multimedia = Convert.IsDBNull(reader["MULTIMEDIA"]) ? "" : reader["MULTIMEDIA"].ToString()
+                            Multimedia = Convert.IsDBNull(reader["MULTIMEDIA"]) ? "" : reader["MULTIMEDIA"].ToString(),
+                            Precio = Convert.IsDBNull(reader["PRECIO"]) ? 0.00 : Convert.ToDouble(reader["PRECIO"].ToString()),
                         });
                     }
                 }
@@ -190,6 +191,87 @@ namespace Quickpack.Persistence.Repository
                     Descripcion = parameters.Get<string>("@descripcion"),
                     Beneficios = beneficios,
                 };
+                return response;
+            }
+        }
+        public async Task<List<CaracteristicaLanding>> ObtenerCaracteristicaLanding(ObtenerCategoriaLandingQuery query)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                List<CaracteristicaLanding> response = new();
+                DynamicParameters parameters = new DynamicParameters();
+
+                parameters.Add("@pIdCategoria", query.IdCategoria, DbType.Int32, ParameterDirection.Input);
+
+                using (var reader = await cnx.ExecuteReaderAsync(
+                    "[dbo].[usp_ObtenerCaracteristicaCategoriaLanding]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure))
+                {
+                    while (reader.Read())
+                    {
+                        response.Add(new CaracteristicaLanding()
+                        {
+                            Id = Convert.IsDBNull(reader["ID"]) ? 0 : Convert.ToInt32(reader["ID"].ToString()),
+                            Nombre = Convert.IsDBNull(reader["NOMBRE"]) ? "" : reader["NOMBRE"].ToString(),
+                            Descripcion = Convert.IsDBNull(reader["DESCRIPCION"]) ? "" : reader["DESCRIPCION"].ToString(),
+                            Multimedia = Convert.IsDBNull(reader["MULTIMEDIA"]) ? "" : reader["MULTIMEDIA"].ToString(),
+                        });
+                    }
+                }
+                return response;
+            }
+        }
+        public async Task<List<FichaTecnicaLanding>> ObtenerFichaTecnicaLanding(ObtenerCategoriaLandingQuery query)
+        {
+            using (var cnx = _dataBase.GetConnection())
+            {
+                List<FichaTecnicaLanding> response = new();
+                DynamicParameters parameters = new DynamicParameters();
+
+                parameters.Add("@pIdCategoria", query.IdCategoria, DbType.Int32, ParameterDirection.Input);
+
+                using (var reader = await cnx.ExecuteReaderAsync(
+                    "[dbo].[usp_ObtenerFichaTecnicaProductoLanding]",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure))
+                {
+                    while (reader.Read())
+                    {
+                        response.Add(new FichaTecnicaLanding()
+                        {
+                            IdProducto = Convert.IsDBNull(reader["ID_PRODUCTO"]) ? 0 : Convert.ToInt32(reader["ID_PRODUCTO"].ToString()),
+                            NombreProducto = Convert.IsDBNull(reader["NOMBRE_PRODUCTO"]) ? "" : reader["NOMBRE_PRODUCTO"].ToString(),
+
+                            AltoCamara = Convert.IsDBNull(reader["ALTO_CAMARA"]) ? 0.00 : Convert.ToDouble(reader["ALTO_CAMARA"].ToString()),
+                            AnchoCamara = Convert.IsDBNull(reader["ANCHO_CAMARA"]) ? 0.00 : Convert.ToDouble(reader["ANCHO_CAMARA"].ToString()),
+                            LargoCamara = Convert.IsDBNull(reader["LARGO_CAMARA"]) ? 0.00 : Convert.ToDouble(reader["LARGO_CAMARA"].ToString()),
+
+                            AltoMaquina = Convert.IsDBNull(reader["ALTO_MAQUINA"]) ? 0.00 : Convert.ToDouble(reader["ALTO_MAQUINA"].ToString()),
+                            AnchoMaquina = Convert.IsDBNull(reader["ANCHO_MAQUINA"]) ? 0.00 : Convert.ToDouble(reader["ANCHO_MAQUINA"].ToString()),
+                            LargoMaquina = Convert.IsDBNull(reader["LARGO_MAQUINA"]) ? 0.00 : Convert.ToDouble(reader["LARGO_MAQUINA"].ToString()),
+
+                            BarraSellado = Convert.IsDBNull(reader["BARRA_SELLADO"]) ? 0.00 : Convert.ToDouble(reader["BARRA_SELLADO"].ToString()),
+                            CapacidadBomba = Convert.IsDBNull(reader["CAPACIDAD_BOMBA"]) ? 0 : Convert.ToInt32(reader["CAPACIDAD_BOMBA"].ToString()),
+
+                            CicloSuperior = Convert.IsDBNull(reader["CICLO_SUPERIOR"]) ? 0 : Convert.ToInt32(reader["CICLO_SUPERIOR"].ToString()),
+                            CicloInferior = Convert.IsDBNull(reader["CICLO_INFERIOR"]) ? 0 : Convert.ToInt32(reader["CICLO_INFERIOR"].ToString()),
+
+                            Peso = Convert.IsDBNull(reader["PESO"]) ? 0.00 : Convert.ToDouble(reader["PESO"].ToString()),
+
+                            PlacaInsercion = Convert.IsDBNull(reader["PLACA_INSERCION"]) ? 0 : Convert.ToInt32(reader["PLACA_INSERCION"].ToString()),
+                            SistemaControl = Convert.IsDBNull(reader["SISTEMA_CONTROL"]) ? "" : reader["SISTEMA_CONTROL"].ToString(),
+
+                            DeteccionVacioFinal = Convert.IsDBNull(reader["DETECCION_VACION_FINAL"]) ? "" : reader["DETECCION_VACION_FINAL"].ToString(),
+                            DeteccionCarne = Convert.IsDBNull(reader["DETECCION_CARNE"]) ? "" : reader["DETECCION_CARNE"].ToString(),
+
+                            SoftAir = Convert.IsDBNull(reader["SOFTAIR"]) ? "" : reader["SOFTAIR"].ToString(),
+                            ControlLiquidos = Convert.IsDBNull(reader["CONTROL_LIQUIDOS"]) ? "" : reader["CONTROL_LIQUIDOS"].ToString(),
+
+                            Potencia = Convert.IsDBNull(reader["POTENCIA"]) ? 0.00 : Convert.ToDouble(reader["POTENCIA"].ToString()),
+                        });
+                    }
+                }
                 return response;
             }
         }
