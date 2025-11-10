@@ -2,6 +2,7 @@
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Quickpack.Api.Extensions;
+using Quickpack.Api.Filter;
 using Quickpack.Api.Utils;
 using Quickpack.Application.Common.Settings;
 using Serilog;
@@ -27,6 +28,7 @@ namespace Quickpack.Api
             services.AddCustomHealthCheck();
             services.AddCustomOptions(Configuration);
             services.AddLayersDependencyInjections(Configuration);
+            services.AddScoped<AuthorizationFilter>();
 
             services.AddSwaggerGen(options =>
             {

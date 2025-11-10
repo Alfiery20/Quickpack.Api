@@ -10,11 +10,19 @@ namespace Quickpack.Api.Filter
 {
     public class AuthorizationFilter : ActionFilterAttribute
     {
+        private readonly IConfiguration _configuration;
+        string _key = "";
+        string _issuer = "";
+
+        public AuthorizationFilter(IConfiguration configuration)
+        {
+            this._configuration = configuration;
+            this._key = _configuration["JwtSettings:Key"];
+            this._issuer = _configuration["JwtSettings:Issuer"];
+        }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            string _key = "WCM9K1M2&7g1O4bogUii$TYxWwTP@S*1";
-            string _issuer = "Quickpack.Api";
-
             var request = context.HttpContext.Request;
 
             if (!request.Headers.ContainsKey("Authorization"))

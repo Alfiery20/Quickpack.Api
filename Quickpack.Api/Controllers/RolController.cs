@@ -15,7 +15,7 @@ namespace Quickpack.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AuthorizationFilter]
+    [ServiceFilter(typeof(AuthorizationFilter))]
     public class RolController : AbstractController
     {
         [HttpPost]
